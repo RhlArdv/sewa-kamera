@@ -235,10 +235,15 @@
                                         Bayar DP
                                     </button>
                                 @elseif($trx->ktp_status == 'rejected')
-                                    <span class="px-4 py-1.5 lg:px-6 lg:py-2 bg-rose-100 text-rose-700 rounded lg:rounded-lg text-[11px] lg:text-sm font-bold">KTP Ditolak</span>
+                                    <div class="flex items-center gap-1.5 px-3 py-1.5 lg:px-4 lg:py-2 bg-rose-50 border border-rose-200 text-rose-600 rounded lg:rounded-lg text-[11px] lg:text-sm font-bold whitespace-nowrap shadow-sm">
+                                        <svg class="w-3.5 h-3.5 lg:w-4 lg:h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                                        KTP Ditolak
+                                    </div>
                                 @else
-                                    <span class="px-4 py-1.5 lg:px-6 lg:py-2 bg-yellow-100 text-yellow-700 rounded lg:rounded-lg text-[11px] lg:text-sm font-bold">Menunggu
-                                        Verifikasi KTP</span>
+                                    <div class="flex items-center gap-1.5 px-3 py-1.5 lg:px-4 lg:py-2 bg-amber-50 border border-amber-200 text-amber-600 rounded lg:rounded-lg text-[11px] lg:text-sm font-bold whitespace-nowrap shadow-sm">
+                                        <svg class="w-3.5 h-3.5 lg:w-4 lg:h-4 animate-spin-slow" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                                        Menunggu Verifikasi KTP
+                                    </div>
                                 @endif
                             @endif
                         </div>

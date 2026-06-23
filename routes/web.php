@@ -74,4 +74,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/invoice/{id}', [\App\Http\Controllers\InvoiceController::class, 'show'])->name('invoice.show');
 });
 
+use App\Http\Controllers\MidtransWebhookController;
+Route::post('/api/midtrans/webhook', [MidtransWebhookController::class, 'handle'])->name('midtrans.webhook');
+
 require __DIR__ . '/auth.php';
