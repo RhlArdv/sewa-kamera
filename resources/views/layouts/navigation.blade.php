@@ -61,61 +61,76 @@
                 @endif
             </div>
 
-            <!-- Hamburger (Mobile) -->
-            <div class="-me-2 flex items-center sm:hidden">
-                <button @click="open = ! open"
-                    class="inline-flex items-center justify-center p-2 border-2 border-black bg-white text-black hover:bg-zinc-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-black transition duration-150 rounded-xl"
-                    aria-label="Menu navigasi">
-                    <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
-                        <path :class="{'hidden': open, 'inline-flex': ! open }" class="inline-flex"
-                            stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
-                            d="M4 6h16M4 12h16M4 18h16" />
-                        <path :class="{'hidden': ! open, 'inline-flex': open }" class="hidden" stroke-linecap="round"
-                            stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                </button>
-            </div>
+            <!-- Hamburger (Mobile) - Removed in favor of Floating Pill -->
         </div>
     </div>
 
-    <!-- Mobile Navigation Menu -->
-    <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden bg-white border-t-2 border-black">
-        <div class="pt-2 pb-3 space-y-1 px-4">
+    <!-- Neobrutalist Floating Bottom Pill (Mobile) -->
+    <div class="fixed bottom-6 left-4 right-4 z-[100] sm:hidden font-sans pointer-events-none">
+        <div class="bg-white border-[3px] border-black shadow-[6px_6px_0_0_#9E1B22] rounded-full flex justify-around items-center px-2 py-3 pointer-events-auto">
+            
+            {{-- Katalog --}}
             <a href="{{ route('home') }}"
-                class="block pl-3 pr-4 py-2 text-black font-extrabold hover:bg-zinc-50 {{ request()->routeIs('home') ? 'border-l-4 border-[#9E1B22] bg-zinc-50' : 'border-l-4 border-transparent' }}">
-                Katalog Kamera
+                class="flex flex-col items-center justify-center gap-1 w-1/3 transition-transform hover:-translate-y-1 {{ request()->routeIs('home') || request()->routeIs('product.show') ? 'text-[#9E1B22]' : 'text-black' }}">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="{{ request()->routeIs('home') || request()->routeIs('product.show') ? '2.5' : '2' }}" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                </svg>
+                <span class="text-[10px] font-black uppercase tracking-widest">Katalog</span>
             </a>
-        </div>
 
-        <!-- Responsive Guest Options -->
-        <div class="pt-4 pb-6 border-t border-black px-4 space-y-3">
             @if(auth()->check())
                 @if(auth()->user()->isAdmin())
+                    {{-- Dashboard Admin --}}
                     <a href="{{ route('menu.dashboard') }}"
-                        class="block text-center w-full py-2.5 border-2 border-black bg-white text-black font-black text-sm hover:bg-zinc-50 transition active:translate-x-[2px] active:translate-y-[2px] shadow-[3px_3px_0px_0px_#9E1B22] active:shadow-none rounded-xl">
-                        Dashboard Admin
+                        class="flex flex-col items-center justify-center gap-1 w-1/3 transition-transform hover:-translate-y-1 text-black">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+                        </svg>
+                        <span class="text-[10px] font-black uppercase tracking-widest">Admin</span>
                     </a>
                 @else
+                    {{-- Keranjang --}}
                     <a href="{{ route('cart.index') }}"
-                        class="block text-center w-full py-2.5 border-2 border-black bg-white text-black font-black text-sm hover:bg-zinc-50 transition active:translate-x-[2px] active:translate-y-[2px] shadow-[3px_3px_0px_0px_#9E1B22] active:shadow-none rounded-xl">
-                        Keranjang
+                        class="flex flex-col items-center justify-center gap-1 w-1/3 transition-transform hover:-translate-y-1 relative {{ request()->routeIs('cart.index') ? 'text-[#9E1B22]' : 'text-black' }}">
+                        <div class="relative">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="{{ request()->routeIs('cart.index') ? '2.5' : '2' }}" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                            </svg>
+                            @if(\App\Models\Cart::where('user_id', auth()->id())->count() > 0)
+                                <span class="absolute -top-1.5 -right-2 bg-[#9E1B22] text-white text-[9px] font-black px-1.5 py-0.5 border-2 border-black rounded-full leading-none">{{\App\Models\Cart::where('user_id', auth()->id())->count()}}</span>
+                            @endif
+                        </div>
+                        <span class="text-[10px] font-black uppercase tracking-widest">Cart</span>
                     </a>
                 @endif
-                <form method="POST" action="{{ route('logout') }}">
-                    @csrf
-                    <button type="submit"
-                        class="block text-center w-full py-2.5 border-2 border-black bg-[#9E1B22] text-white font-black text-sm hover:bg-[#7A151B] transition active:translate-x-[2px] active:translate-y-[2px] shadow-[3px_3px_0px_0px_#7A151B] active:shadow-none rounded-xl">
-                        Logout
-                    </button>
-                </form>
+                {{-- Profil / Logout --}}
+                <div class="w-1/3 flex justify-center">
+                    <form method="POST" action="{{ route('logout') }}" class="w-full flex justify-center">
+                        @csrf
+                        <button type="submit" class="flex flex-col items-center justify-center gap-1 transition-transform hover:-translate-y-1 text-black bg-transparent border-none p-0 w-full outline-none focus:outline-none">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                            </svg>
+                            <span class="text-[10px] font-black uppercase tracking-widest">Logout</span>
+                        </button>
+                    </form>
+                </div>
             @else
+                {{-- Login --}}
                 <a href="{{ route('login') }}"
-                    class="block text-center w-full py-2.5 border-2 border-black bg-white text-black font-black text-sm hover:bg-zinc-50 transition active:translate-x-[2px] active:translate-y-[2px] shadow-[3px_3px_0px_0px_#9E1B22] active:shadow-none rounded-xl">
-                    Log in
+                    class="flex flex-col items-center justify-center gap-1 w-1/3 transition-transform hover:-translate-y-1 text-black">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
+                    </svg>
+                    <span class="text-[10px] font-black uppercase tracking-widest">Login</span>
                 </a>
+                {{-- Register --}}
                 <a href="{{ route('register') }}"
-                    class="block text-center w-full py-2.5 border-2 border-black bg-[#9E1B22] text-white font-black text-sm hover:bg-[#7A151B] transition active:translate-x-[2px] active:translate-y-[2px] shadow-[3px_3px_0px_0px_#7A151B] active:shadow-none rounded-xl">
-                    Register
+                    class="flex flex-col items-center justify-center gap-1 w-1/3 transition-transform hover:-translate-y-1 text-[#9E1B22]">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
+                    </svg>
+                    <span class="text-[10px] font-black uppercase tracking-widest">Daftar</span>
                 </a>
             @endif
         </div>

@@ -22,12 +22,8 @@
 <body class="font-sans text-zinc-950 bg-zinc-50 antialiased selection:bg-[#9E1B22] selection:text-white" style="font-family: 'Outfit', sans-serif;">
     <div class="min-h-screen flex flex-col sm:justify-center items-center pt-10 sm:pt-0 relative overflow-hidden px-4">
         <div class="relative z-10 mb-8 mt-10 sm:mt-0">
-            <a href="/" class="inline-flex items-center justify-center p-3 bg-[#9E1B22] border-2 border-zinc-950 rounded-2xl shadow-[4px_4px_0_0_#7A151B] hover:-translate-y-1 hover:shadow-[6px_6px_0_0_#7A151B] transition-all duration-300">
-                <svg class="w-10 h-10 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
-                    <circle cx="12" cy="13" r="3" stroke-width="2" />
-                </svg>
+            <a href="/" class="inline-flex items-center justify-center drop-shadow-sm hover:scale-105 transition-all duration-300">
+                <img src="{{ asset('assets/img/logo.png') }}" alt="CameraSewa Logo" class="h-16 w-auto object-contain">
             </a>
         </div>
 
