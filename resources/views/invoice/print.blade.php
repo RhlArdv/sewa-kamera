@@ -127,9 +127,8 @@
         </div>
         <div class="header-company">
             <strong>CAMERA SEWA STORE</strong>
-            <div>Jasa Rental Kamera & Aksesoris</div>
-            <div>HP: (021) 1234-5678</div>
-            <div>Email: hello@camerasewa.com</div>
+            <div>Jl. Gajah No.VII, Air Tawar Bar., Kec. Padang Utara, Kota Padang, Sumatera Barat 25132</div>
+            <div>HP: (021) 1234-5678 | Email: hello@camerasewa.com</div>
         </div>
         <div class="header-meta">
             <strong>Faktur penyewaan</strong>

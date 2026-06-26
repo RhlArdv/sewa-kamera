@@ -77,7 +77,7 @@ class CheckoutController extends Controller
                 'code' => $transactionCode,
                 'total_price' => $totalPrice,
                 'uang_panjar' => $dpAmount,
-                'city' => 'Kawasan Telkom University, Bandung',
+                'city' => 'Kota Padang',
                 'bayar_id' => 1, // Default to Midtrans DP
                 'transaksi_status' => 'pending',
                 'keterangan' => $request->input('keterangan'),

@@ -21,8 +21,18 @@
                     if (typeof snap !== 'undefined') {
                         snap.pay(token, {
                             onSuccess: function(result) {
-                                alert('Pembayaran sukses! Silakan refresh halaman.');
-                                window.location.reload();
+                                let form = document.createElement('form');
+                                form.method = 'POST';
+                                form.action = '/orders/' + id + '/payment-success';
+                                
+                                let csrf = document.createElement('input');
+                                csrf.type = 'hidden';
+                                csrf.name = '_token';
+                                csrf.value = '{{ csrf_token() }}';
+                                form.appendChild(csrf);
+                                
+                                document.body.appendChild(form);
+                                form.submit();
                             },
                             onPending: function(result) {
                                 alert('Menunggu pembayaran Anda.');

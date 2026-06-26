@@ -22,6 +22,7 @@ Route::middleware(['auth', 'role:pelanggan'])->group(function () {
     Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
     Route::post('/orders/{id}/cancel', [OrderController::class, 'cancel'])->name('orders.cancel');
     Route::post('/orders/{id}/mock-pay', [OrderController::class, 'mockPay'])->name('orders.mock-pay');
+    Route::post('/orders/{id}/payment-success', [OrderController::class, 'paymentSuccess'])->name('orders.payment-success');
 });
 
 use App\Http\Controllers\Admin\CategoryController;

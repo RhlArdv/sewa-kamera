@@ -148,7 +148,7 @@
             <h1>LAPORAN KEUANGAN</h1>
             <p>
                 <strong>CameraSewa Official Store</strong><br>
-                Jl. Lensa Fotografi No. 123, Kebayoran Baru, Jakarta Selatan, 12110<br>
+                Jl. Gajah No.VII, Air Tawar Bar., Kec. Padang Utara, Kota Padang, Sumatera Barat 25132<br>
                 Telp: (021) 1234-5678 | Email: hello@camerasewa.com
             </p>
         </div>
