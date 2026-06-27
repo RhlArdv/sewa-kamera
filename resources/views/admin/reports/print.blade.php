@@ -191,12 +191,13 @@
     <table>
         <thead>
             <tr>
-                <th style="width: 12%">Kode Trx</th>
-                <th>Penyewa</th>
-                <th class="text-center" style="width: 15%">Tanggal Sewa</th>
-                <th class="text-center" style="width: 12%">Status</th>
-                <th class="text-right" style="width: 18%">Nilai Transaksi</th>
-                <th class="text-right" style="width: 18%">Kas Diterima</th>
+                <th style="width: 10%">Kode Trx</th>
+                <th style="width: 18%">Penyewa</th>
+                <th style="width: 24%">Kamera Disewa</th>
+                <th class="text-center" style="width: 12%">Tanggal Sewa</th>
+                <th class="text-center" style="width: 10%">Status</th>
+                <th class="text-right" style="width: 13%">Nilai Transaksi</th>
+                <th class="text-right" style="width: 13%">Kas Diterima</th>
             </tr>
         </thead>
         <tbody>
@@ -213,7 +214,19 @@
                 <tr>
                     <td class="font-mono">#{{ $trx->code }}</td>
                     <td>
-                        <strong>{{ $trx->receiver }}</strong> ({{ $trx->user->name ?? '' }})
+                        <strong>{{ $trx->receiver }}</strong><br>
+                        <span style="font-size: 11px; color: #666;">({{ $trx->user->name ?? '' }})</span>
+                    </td>
+                    <td>
+                        <ul style="margin: 0; padding-left: 14px; list-style-type: square;">
+                            @forelse($trx->details as $detail)
+                                <li style="margin-bottom: 2px;">
+                                    <strong>{{ $detail->product->produk_name ?? 'Item Tidak Diketahui' }}</strong> ({{ $detail->banyak }}x)
+                                </li>
+                            @empty
+                                <li>-</li>
+                            @endforelse
+                        </ul>
                     </td>
                     <td class="text-center">{{ $trx->tanggal_sewa ? $trx->tanggal_sewa->format('d/m/Y') : '-' }}</td>
                     <td class="text-center" style="text-transform: uppercase; font-size: 10px;">{{ $trx->transaksi_status }}</td>
@@ -222,13 +235,13 @@
                 </tr>
             @empty
                 <tr>
-                    <td colspan="6" class="text-center">Tidak ada transaksi dalam periode ini.</td>
+                    <td colspan="7" class="text-center">Tidak ada transaksi dalam periode ini.</td>
                 </tr>
             @endforelse
             
             @if($transactions->count() > 0)
                 <tr class="total-row">
-                    <td colspan="4" class="text-right" style="text-transform: uppercase;">Total Akumulasi:</td>
+                    <td colspan="5" class="text-right" style="text-transform: uppercase;">Total Akumulasi:</td>
                     <td class="text-right font-mono">Rp {{ number_format($totalTransactedVal, 0, ',', '.') }}</td>
                     <td class="text-right font-mono">Rp {{ number_format($totalReceivedVal, 0, ',', '.') }}</td>
                 </tr>

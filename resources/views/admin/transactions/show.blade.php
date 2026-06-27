@@ -59,7 +59,7 @@
                                     <div class="flex-grow min-w-0">
                                         <h4 class="text-sm font-bold text-gray-800 truncate">{{ $detail->product->produk_name ?? 'Produk dihapus' }}</h4>
                                         <p class="text-xs text-gray-400 mt-1">Kode: <span class="font-mono text-gray-500 font-bold">#{{ $detail->code_produk ?? '-' }}</span></p>
-                                        <p class="text-xs text-gray-400 mt-0.5">Durasi sewa: <span class="text-gray-600 font-semibold">{{ $detail->duration_hours }} Jam</span></p>
+                                        <p class="text-xs text-gray-400 mt-0.5">Durasi sewa: <span class="text-gray-600 font-semibold">{{ $detail->duration_hours == 0 ? '5 Menit' : $detail->duration_hours . ' Jam' }}</span></p>
                                     </div>
 
                                     <div class="text-right flex-shrink-0">

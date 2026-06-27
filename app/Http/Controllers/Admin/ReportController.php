@@ -20,7 +20,7 @@ class ReportController extends Controller
 
         // Ambil transaksi yang masuk dalam rentang tanggal sewa
         // Mengabaikan status 'cancelled'
-        $transactions = Transaction::with(['user', 'bayar'])
+        $transactions = Transaction::with(['user', 'bayar', 'details.product'])
             ->whereBetween('tanggal_sewa', [$start, $end])
             ->whereIn('transaksi_status', ['dp_paid', 'completed'])
             ->orderBy('tanggal_sewa', 'asc')

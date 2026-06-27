@@ -105,9 +105,15 @@
                                     get durationHours() {
                                         return parseInt(this.package) || 0;
                                     },
+                                    getPrice() {
+                                        let p = parseInt(this.prices[this.package]);
+                                        if (isNaN(p)) {
+                                            p = this.package == '0' ? (parseInt(this.prices['6']) || 10000) : 0;
+                                        }
+                                        return p;
+                                    },
                                     get total() {
-                                        let price = parseInt(this.prices[this.package]) || 0;
-                                        return price * this.banyak;
+                                        return this.getPrice() * this.banyak;
                                     }
                                  }">
                         <h3 class="text-xl font-black text-zinc-950 uppercase tracking-tighter border-b-2 border-zinc-100 pb-4 mb-6">
@@ -145,6 +151,7 @@
                                         <label for="package" class="block text-xs font-black text-zinc-950 uppercase tracking-wider mb-2">Pilih Paket Sewa</label>
                                         <select name="package_duration" id="package" x-model="package" required
                                             class="block w-full border-2 border-zinc-950 rounded-xl bg-white text-zinc-950 font-bold focus:outline-none focus:ring-0 focus:border-[#9E1B22] transition duration-200 py-3 px-4">
+                                            <option value="0">Paket 5 Menit (Test Stock) (Rp {{ number_format($product->prices['0'] ?? ($product->prices['6'] ?? 10000), 0, ',', '.') }})</option>
                                             <option value="6">Paket 6 Jam (Rp {{ number_format($product->prices['6'] ?? 0, 0, ',', '.') }})</option>
                                             <option value="12">Paket 12 Jam (Rp {{ number_format($product->prices['12'] ?? 0, 0, ',', '.') }})</option>
                                             <option value="24">Paket 24 Jam (Rp {{ number_format($product->prices['24'] ?? 0, 0, ',', '.') }})</option>
@@ -155,11 +162,11 @@
                                     <div class="bg-zinc-50 border-2 border-zinc-950 rounded-xl p-4 space-y-2 shadow-[3px_3px_0px_0px_#9E1B22]" x-show="total > 0">
                                         <div class="flex justify-between text-xs text-zinc-600 font-bold">
                                             <span>Durasi Sewa:</span>
-                                            <span x-text="durationHours + ' jam'"></span>
+                                            <span x-text="package == '0' ? '5 menit (Test)' : durationHours + ' jam'"></span>
                                         </div>
                                         <div class="flex justify-between text-xs text-zinc-600 font-bold">
                                             <span>Subtotal Tarif:</span>
-                                            <span x-text="'Rp ' + (prices[package] * banyak).toLocaleString('id-ID')"></span>
+                                            <span x-text="'Rp ' + (getPrice() * banyak).toLocaleString('id-ID')"></span>
                                         </div>
                                         <div class="flex justify-between text-sm font-black text-zinc-950 border-t-2 border-zinc-200 pt-2.5 mt-2">
                                             <span>Estimasi Total:</span>

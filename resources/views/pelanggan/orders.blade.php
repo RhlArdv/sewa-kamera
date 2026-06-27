@@ -161,7 +161,7 @@
                                                 {{ $detail->product->produk_name }}</h4>
                                             <span class="text-xs lg:text-sm text-gray-600 ml-2 font-mono">x{{ $detail->banyak }}</span>
                                         </div>
-                                        <p class="text-[10px] lg:text-sm text-gray-500 mt-1 lg:mt-2">Paket: {{ $detail->duration_hours }} Jam</p>
+                                        <p class="text-[10px] lg:text-sm text-gray-500 mt-1 lg:mt-2">Paket: {{ $detail->duration_hours == 0 ? '5 Menit' : $detail->duration_hours . ' Jam' }}</p>
                                     </div>
                                     <div class="flex justify-between items-end mt-2">
                                         <div class="text-[9px] lg:text-xs text-gray-500 lg:text-gray-600 bg-white lg:bg-gray-100 lg:border-none px-1.5 py-0.5 lg:px-2.5 lg:py-1 rounded border border-gray-100">

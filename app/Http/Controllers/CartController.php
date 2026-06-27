@@ -41,14 +41,18 @@ class CartController extends Controller
             'produk_id' => 'required|exists:tb_product,id_produk',
             'banyak' => 'required|integer|min:1',
             'start_time' => 'required|date|after_or_equal:now',
-            'package_duration' => 'required|in:6,12,24',
+            'package_duration' => 'required|in:0,6,12,24',
         ]);
 
         $productId = $request->input('produk_id');
         $banyak = $request->input('banyak');
         $startTime = Carbon::parse($request->input('start_time'));
         $durationHours = (int) $request->input('package_duration');
-        $endTime = $startTime->copy()->addHours($durationHours);
+        if ($durationHours === 0) {
+            $endTime = $startTime->copy()->addMinutes(5);
+        } else {
+            $endTime = $startTime->copy()->addHours($durationHours);
+        }
 
         // Validate availability
         $availableUnits = $this->rentalService->getAvailableUnits($productId, $startTime, $endTime);
@@ -60,7 +64,7 @@ class CartController extends Controller
         }
 
         $product = Product::findOrFail($productId);
-        $packagePrice = $product->prices[$durationHours] ?? 0;
+        $packagePrice = $product->prices[$durationHours] ?? ($durationHours === 0 ? ($product->prices[6] ?? 10000) : 0);
         $totalPrice = $packagePrice * $banyak;
 
         // Add to cart or update if exact item with same timeslot already exists

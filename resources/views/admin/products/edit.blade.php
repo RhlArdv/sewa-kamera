@@ -58,7 +58,16 @@
                         <!-- Harga Sewa Paket -->
                         <div class="md:col-span-2">
                             <label class="block text-xs font-semibold text-gray-500 uppercase mb-2">Harga Sewa Paket (IDR)</label>
-                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                            <div class="grid grid-cols-1 sm:grid-cols-4 gap-4">
+                                <!-- 5 Menit (Test) -->
+                                <div>
+                                    <label class="block text-[10px] font-semibold text-gray-400 uppercase mb-1">Paket 5 Menit</label>
+                                    <div class="relative">
+                                        <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-gray-400 font-semibold text-sm">Rp</div>
+                                        <input type="number" name="prices[0]" value="{{ old('prices.0', $product->prices['0'] ?? 10000) }}" placeholder="Contoh: 10000" class="w-full bg-white border border-gray-200 rounded-lg py-2 pl-10 pr-3 text-sm text-gray-800 placeholder-gray-405 focus:outline-none focus:border-slate-500 focus:ring-1 focus:ring-slate-500 transition duration-150">
+                                    </div>
+                                    @error('prices.0')<p class="text-xs text-red-600 mt-1">{{ $message }}</p>@enderror
+                                </div>
                                 <!-- 6 Jam -->
                                 <div>
                                     <label class="block text-[10px] font-semibold text-gray-400 uppercase mb-1">Paket 6 Jam</label>

@@ -159,7 +159,7 @@
         <div class="data-value">: 
             <div class="item-list">
                 @foreach($transaction->details as $detail)
-                    <div>- {{ $detail->product->produk_name ?? 'Produk dihapus' }} ({{ $detail->banyak }} unit x {{ $detail->duration_hours }} Jam)</div>
+                    <div>- {{ $detail->product->produk_name ?? 'Produk dihapus' }} ({{ $detail->banyak }} unit x {{ $detail->duration_hours == 0 ? '5 Menit' : $detail->duration_hours . ' Jam' }})</div>
                 @endforeach
             </div>
         </div>

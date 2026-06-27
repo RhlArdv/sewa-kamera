@@ -90,7 +90,7 @@
                                     <div class="flex items-center space-x-6 text-xs text-gray-500">
                                         <div>
                                             <span class="block text-gray-400 uppercase text-[9px] tracking-wider font-semibold">Durasi</span>
-                                            <span class="font-bold text-gray-700 font-mono">{{ $item->duration_hours }} Jam</span>
+                                            <span class="font-bold text-gray-700 font-mono">{{ $item->duration_hours == 0 ? '5 Menit' : $item->duration_hours . ' Jam' }}</span>
                                         </div>
                                         <div>
                                             <span class="block text-gray-400 uppercase text-[9px] tracking-wider font-semibold">Kamera</span>
@@ -98,7 +98,7 @@
                                         </div>
                                         <div>
                                             <span class="block text-gray-400 uppercase text-[9px] tracking-wider font-semibold font-sans">Tarif Paket</span>
-                                            <span class="font-bold text-gray-700 font-mono">Rp&nbsp;{{ number_format($item->product->prices[$item->duration_hours] ?? 0, 0, ',', '.') }}</span>
+                                            <span class="font-bold text-gray-700 font-mono">Rp&nbsp;{{ number_format($item->product->prices[$item->duration_hours] ?? ($item->duration_hours == 0 ? ($item->product->prices[6] ?? 10000) : 0), 0, ',', '.') }}</span>
                                         </div>
                                     </div>
 

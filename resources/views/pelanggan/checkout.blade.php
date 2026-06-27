@@ -183,7 +183,7 @@
                             <div class="space-y-1.5 w-full pr-4">
                                 <p class="font-bold text-gray-800">{{ $item->product->produk_name }}</p>
                                 <p class="text-[10px] text-gray-400 font-mono">{{ $item->banyak }} Unit x
-                                    {{ $item->duration_hours }} Jam
+                                    {{ $item->duration_hours == 0 ? '5 Menit' : $item->duration_hours . ' Jam' }}
                                 </p>
                                 <div class="bg-gray-50 rounded-lg p-2 mt-1.5 border border-gray-100">
                                     <p class="text-[9px] font-semibold text-gray-500 uppercase tracking-wider mb-0.5">Jadwal

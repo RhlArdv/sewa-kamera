@@ -121,6 +121,7 @@
                             <tr>
                                 <th scope="col" class="px-6 py-3.5">Kode</th>
                                 <th scope="col" class="px-6 py-3.5">Nama Penyewa</th>
+                                <th scope="col" class="px-6 py-3.5">Kamera Disewa</th>
                                 <th scope="col" class="px-6 py-3.5 text-center">Tanggal Sewa</th>
                                 <th scope="col" class="px-6 py-3.5 text-center">Status Sewa</th>
                                 <th scope="col" class="px-6 py-3.5 text-right">Nilai Transaksi</th>
@@ -146,6 +147,19 @@
                                         <div class="font-semibold text-gray-800">{{ $trx->receiver }}</div>
                                         <div class="text-xs text-gray-400 mt-0.5 font-sans">{{ $trx->user->name ?? '' }}</div>
                                     </td>
+                                    <td class="px-6 py-4">
+                                        <div class="space-y-1">
+                                            @forelse($trx->details as $detail)
+                                                <div class="text-xs font-medium text-gray-700 flex items-center gap-1.5">
+                                                    <span class="inline-block w-1.5 h-1.5 rounded-full bg-slate-500"></span>
+                                                    <span>{{ $detail->product->produk_name ?? 'Item Tidak Diketahui' }}</span>
+                                                    <span class="text-gray-400 font-mono">({{ $detail->banyak }}x)</span>
+                                                </div>
+                                            @empty
+                                                <span class="text-xs text-gray-400 italic">-</span>
+                                            @endforelse
+                                        </div>
+                                    </td>
                                     <td class="px-6 py-4 text-center font-medium font-sans text-gray-700">
                                         {{ $trx->tanggal_sewa ? $trx->tanggal_sewa->format('d M Y') : '-' }}
                                     </td>
@@ -164,7 +178,7 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="6" class="px-6 py-12 text-center text-gray-400 font-sans">
+                                    <td colspan="7" class="px-6 py-12 text-center text-gray-400 font-sans">
                                         Tidak ada transaksi sewa sukses pada rentang tanggal terpilih.
                                     </td>
                                 </tr>
@@ -173,7 +187,7 @@
                         @if($transactions->count() > 0)
                             <tfoot class="bg-gray-50 font-semibold text-gray-800 border-t border-gray-150">
                                 <tr>
-                                    <td colspan="4" class="px-6 py-4 text-right font-sans uppercase tracking-wider">Total Penjumlahan</td>
+                                    <td colspan="5" class="px-6 py-4 text-right font-sans uppercase tracking-wider">Total Penjumlahan</td>
                                     <td class="px-6 py-4 text-right font-mono text-gray-650">Rp {{ number_format($totalTransactedVal, 0, ',', '.') }}</td>
                                     <td class="px-6 py-4 text-right font-mono text-slate-850 text-base">Rp {{ number_format($totalReceivedVal, 0, ',', '.') }}</td>
                                 </tr>

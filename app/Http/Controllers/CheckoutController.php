@@ -92,7 +92,7 @@ class CheckoutController extends Controller
                 TransactionDetail::create([
                     'transaksi_id' => $transaction->id_transaction,
                     'produk_id' => $item->produk_id,
-                    'price' => $item->product->prices[$item->duration_hours] ?? 0,
+                    'price' => $item->product->prices[$item->duration_hours] ?? ($item->duration_hours == 0 ? ($item->product->prices[6] ?? 10000) : 0),
                     'banyak' => $item->banyak,
                     'start_time' => $item->start_time,
                     'end_time' => $item->end_time,
