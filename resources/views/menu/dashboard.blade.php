@@ -156,14 +156,23 @@
                             class="text-xs text-gray-400 bg-white px-2 py-0.5 rounded-md border border-gray-100 group-hover:border-slate-100">{{ $totalUsers }}</span>
                     </a>
 
-                    <a href="{{ route('menu.reports.index') }}"
-                        class="flex items-center justify-between p-3 rounded-xl bg-gray-50 hover:bg-slate-50 hover:text-slate-800 transition duration-150 group border border-transparent hover:border-slate-100">
-                        <span class="text-[13px] text-gray-600 group-hover:text-slate-800 font-medium">Download Laporan
-                            Laba</span>
-                        <svg class="w-4 h-4 text-gray-400 group-hover:text-slate-700" fill="none" viewBox="0 0 24 24"
+                    <a href="{{ route('menu.reports.laba') }}"
+                        class="flex items-center justify-between p-3 rounded-xl bg-gray-50 hover:bg-emerald-50 hover:text-emerald-900 transition duration-150 group border border-transparent hover:border-emerald-100">
+                        <span class="text-[13px] text-gray-600 group-hover:text-emerald-900 font-medium">Laporan Keuangan & Laba</span>
+                        <svg class="w-4 h-4 text-gray-400 group-hover:text-emerald-700" fill="none" viewBox="0 0 24 24"
                             stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M9 17v-2m3 2v-4m3 2v-6m-9 9h11a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
+                    </a>
+
+                    <a href="{{ route('menu.reports.rental') }}"
+                        class="flex items-center justify-between p-3 rounded-xl bg-gray-50 hover:bg-indigo-50 hover:text-indigo-900 transition duration-150 group border border-transparent hover:border-indigo-100">
+                        <span class="text-[13px] text-gray-600 group-hover:text-indigo-900 font-medium">Laporan Operasional Sewa</span>
+                        <svg class="w-4 h-4 text-gray-400 group-hover:text-indigo-700" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                         </svg>
                     </a>
                 </div>

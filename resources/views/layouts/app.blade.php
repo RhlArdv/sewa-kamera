@@ -181,13 +181,25 @@
                                     <p class="px-3 pt-4 pb-2 text-[10px] font-semibold text-gray-400 uppercase tracking-widest">Laporan &
                                         Pengguna</p>
 
-                                    @php $activeReports = request()->routeIs('menu.reports.*'); @endphp
-                                    <a href="{{ route('menu.reports.index') }}"
+                                    @php $activeRental = request()->routeIs('menu.reports.rental*'); @endphp
+                                    <a href="{{ route('menu.reports.rental') }}"
                                         class="relative flex items-center gap-3 px-3 py-2.5 rounded-xl text-[13px] font-medium
-                                                      transition-all {{ $activeReports ? 'nav-item-active bg-red-50 text-[#9E1B22] font-semibold' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900' }}">
+                                                      transition-all {{ $activeRental ? 'nav-item-active bg-red-50 text-[#9E1B22] font-semibold' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900' }}">
                                         <svg class="w-[17px] h-[17px] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round"
-                                                stroke-width="{{ $activeReports ? '2.2' : '1.8' }}"
+                                                stroke-width="{{ $activeRental ? '2.2' : '1.8' }}"
+                                                d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                        </svg>
+                                        Laporan Penyewaan
+                                    </a>
+
+                                    @php $activeLaba = request()->routeIs('menu.reports.laba*'); @endphp
+                                    <a href="{{ route('menu.reports.laba') }}"
+                                        class="relative flex items-center gap-3 px-3 py-2.5 rounded-xl text-[13px] font-medium
+                                                      transition-all {{ $activeLaba ? 'nav-item-active bg-red-50 text-[#9E1B22] font-semibold' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900' }}">
+                                        <svg class="w-[17px] h-[17px] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                stroke-width="{{ $activeLaba ? '2.2' : '1.8' }}"
                                                 d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                                         </svg>
                                         Laporan Laba

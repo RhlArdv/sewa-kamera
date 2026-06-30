@@ -56,7 +56,10 @@ Route::middleware(['auth', 'role:admin'])->prefix('menu')->name('menu.')->group(
 
     // Reports Management
     Route::get('reports', [ReportController::class, 'index'])->name('reports.index');
-    Route::get('reports/print', [ReportController::class, 'print'])->name('reports.print');
+    Route::get('reports/laba', [ReportController::class, 'labaIndex'])->name('reports.laba');
+    Route::get('reports/laba/print', [ReportController::class, 'labaPrint'])->name('reports.laba.print');
+    Route::get('reports/rental', [ReportController::class, 'rentalIndex'])->name('reports.rental');
+    Route::get('reports/rental/print', [ReportController::class, 'rentalPrint'])->name('reports.rental.print');
 });
 
 Route::get('/dashboard', function () {

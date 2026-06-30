@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Laporan_Penyewaan_{{ $startDate }}_sd_{{ $endDate }}</title>
+    <title>Laporan_Keuangan_dan_Arus_Kas_{{ $startDate }}_sd_{{ $endDate }}</title>
     <style>
         body {
             font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
@@ -26,8 +26,8 @@
             left: 0;
             top: 50%;
             transform: translateY(-50%);
-            width: 90px;
-            height: 90px;
+            width: 85px;
+            height: 85px;
             object-fit: contain;
         }
         .header-content {
@@ -36,24 +36,24 @@
         .header-content h1 {
             margin: 0;
             font-family: 'Times New Roman', Times, serif;
-            font-size: 28px;
+            font-size: 26px;
             font-weight: bold;
             text-transform: uppercase;
             letter-spacing: 1.5px;
             color: #000;
         }
         .header-content p {
-            margin: 8px 0 0;
+            margin: 6px 0 0;
             font-family: 'Times New Roman', Times, serif;
             color: #000;
-            font-size: 14px;
+            font-size: 13px;
             line-height: 1.4;
         }
         .header-content p strong {
-            font-size: 18px;
+            font-size: 17px;
             font-weight: bold;
             display: block;
-            margin-bottom: 4px;
+            margin-bottom: 3px;
         }
         .meta-info {
             display: flex;
@@ -67,22 +67,22 @@
         .summary-cards {
             display: flex;
             gap: 15px;
-            margin-bottom: 30px;
+            margin-bottom: 25px;
         }
         .card {
             flex: 1;
             border: 1px solid #ccc;
-            padding: 15px;
+            padding: 12px;
             border-radius: 6px;
             text-align: center;
         }
         .card span {
             font-size: 10px;
             text-transform: uppercase;
-            color: #666;
+            color: #555;
             font-weight: bold;
             display: block;
-            margin-bottom: 5px;
+            margin-bottom: 4px;
         }
         .card h3 {
             margin: 0;
@@ -92,7 +92,7 @@
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-bottom: 30px;
+            margin-bottom: 25px;
         }
         table th, table td {
             border: 1px solid #e0e0e0;
@@ -113,11 +113,11 @@
             background-color: #fafdff;
         }
         .footer {
-            margin-top: 50px;
+            margin-top: 40px;
             display: flex;
             justify-content: space-between;
             font-size: 11px;
-            color: #666;
+            color: #555;
         }
         .signature-box {
             text-align: center;
@@ -131,7 +131,6 @@
         }
         @media print {
             body { padding: 0; }
-            button { display: none; }
             @page {
                 size: A4;
                 margin: 1.5cm;
@@ -145,7 +144,7 @@
     <div class="header">
         <img src="{{ asset('assets/img/logo.png') }}" alt="Logo Toko">
         <div class="header-content">
-            <h1>LAPORAN KEUANGAN</h1>
+            <h1>LAPORAN KEUANGAN & ARUS KAS</h1>
             <p>
                 <strong>CameraSewa Official Store</strong><br>
                 Jl. Gajah No.VII, Air Tawar Bar., Kec. Padang Utara, Kota Padang, Sumatera Barat 25132<br>
@@ -166,50 +165,64 @@
 
     <!-- Kotak Ringkasan -->
     <div class="summary-cards">
-        <div class="card">
-            <span>Total Pendapatan Riil</span>
-            <h3>Rp {{ number_format($totalRevenue, 0, ',', '.') }}</h3>
+        <div class="card" style="border-color: #065f46; background-color: #f0fdf4;">
+            <span style="color: #065f46;">Kas Diterima Riil (Cash In)</span>
+            <h3 style="color: #065f46;">Rp {{ number_format($totalCashReceived, 0, ',', '.') }}</h3>
         </div>
         <div class="card">
-            <span>Jumlah Transaksi Sukses</span>
-            <h3>{{ $totalTransactions }} Transaksi</h3>
+            <span>Total Omset Booking</span>
+            <h3>Rp {{ number_format($totalOmset, 0, ',', '.') }}</h3>
         </div>
         <div class="card">
-            <span>Kamera Terpopuler</span>
-            <h3>
-                @if($popularProducts->count() > 0)
-                    {{ $popularProducts->first()->product->produk_name ?? 'N/A' }}
-                @else
-                    -
-                @endif
-            </h3>
+            <span>Jumlah Transaksi</span>
+            <h3>{{ $totalTransactions }} Trx</h3>
         </div>
     </div>
 
+    <!-- Rekap Metode Bayar -->
+    @if(count($paymentMethods) > 0)
+        <h3 style="font-size: 13px; margin-bottom: 6px;">Rekapitulasi Per Metode Pembayaran</h3>
+        <table style="margin-bottom: 20px;">
+            <thead>
+                <tr>
+                    <th>Metode Pembayaran</th>
+                    <th class="text-center">Jumlah Transaksi</th>
+                    <th class="text-right">Total Nilai Omset</th>
+                    <th class="text-right">Kas Masuk Diterima</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($paymentMethods as $method => $stats)
+                    <tr>
+                        <td><strong>{{ $method }}</strong></td>
+                        <td class="text-center font-mono">{{ $stats['count'] }} Trx</td>
+                        <td class="text-right font-mono">Rp {{ number_format($stats['omset'], 0, ',', '.') }}</td>
+                        <td class="text-right font-mono" style="font-weight: bold;">Rp {{ number_format($stats['received'], 0, ',', '.') }}</td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+    @endif
+
     <!-- Tabel Rincian -->
-    <h3>Rincian Transaksi Penyewaan</h3>
+    <h3 style="font-size: 14px; margin-bottom: 8px;">Buku Rincian Arus Kas Masuk</h3>
     <table>
         <thead>
             <tr>
-                <th style="width: 10%">Kode Trx</th>
-                <th style="width: 18%">Penyewa</th>
-                <th style="width: 24%">Kamera Disewa</th>
-                <th class="text-center" style="width: 12%">Tanggal Sewa</th>
-                <th class="text-center" style="width: 10%">Status</th>
-                <th class="text-right" style="width: 13%">Nilai Transaksi</th>
-                <th class="text-right" style="width: 13%">Kas Diterima</th>
+                <th style="width: 12%">Kode Trx</th>
+                <th style="width: 23%">Penyewa</th>
+                <th style="width: 17%">Metode Bayar</th>
+                <th class="text-center" style="width: 12%">Tanggal</th>
+                <th class="text-center" style="width: 12%">Status Bayar</th>
+                <th class="text-right" style="width: 12%">Omset</th>
+                <th class="text-right" style="width: 12%">Kas Masuk</th>
             </tr>
         </thead>
         <tbody>
-            @php
-                $totalTransactedVal = 0;
-                $totalReceivedVal = 0;
-            @endphp
             @forelse($transactions as $trx)
                 @php
-                    $totalTransactedVal += $trx->total_price;
                     $received = $trx->transaksi_status === 'completed' ? $trx->total_price : $trx->uang_panjar;
-                    $totalReceivedVal += $received;
+                    $methodName = $trx->bayar ? $trx->bayar->jenis_bayar : ($trx->midtrans_snap_token ? 'Midtrans Gateway' : 'Metode Lainnya');
                 @endphp
                 <tr>
                     <td class="font-mono">#{{ $trx->code }}</td>
@@ -217,33 +230,25 @@
                         <strong>{{ $trx->receiver }}</strong><br>
                         <span style="font-size: 11px; color: #666;">({{ $trx->user->name ?? '' }})</span>
                     </td>
-                    <td>
-                        <ul style="margin: 0; padding-left: 14px; list-style-type: square;">
-                            @forelse($trx->details as $detail)
-                                <li style="margin-bottom: 2px;">
-                                    <strong>{{ $detail->product->produk_name ?? 'Item Tidak Diketahui' }}</strong> ({{ $detail->banyak }}x)
-                                </li>
-                            @empty
-                                <li>-</li>
-                            @endforelse
-                        </ul>
-                    </td>
+                    <td>{{ $methodName }}</td>
                     <td class="text-center">{{ $trx->tanggal_sewa ? $trx->tanggal_sewa->format('d/m/Y') : '-' }}</td>
-                    <td class="text-center" style="text-transform: uppercase; font-size: 10px;">{{ $trx->transaksi_status }}</td>
+                    <td class="text-center" style="text-transform: uppercase; font-size: 10px;">
+                        {{ $trx->transaksi_status === 'completed' ? 'Lunas' : 'Panjar/DP' }}
+                    </td>
                     <td class="text-right font-mono">Rp {{ number_format($trx->total_price, 0, ',', '.') }}</td>
-                    <td class="text-right font-mono">Rp {{ number_format($received, 0, ',', '.') }}</td>
+                    <td class="text-right font-mono" style="font-weight: bold;">Rp {{ number_format($received, 0, ',', '.') }}</td>
                 </tr>
             @empty
                 <tr>
-                    <td colspan="7" class="text-center">Tidak ada transaksi dalam periode ini.</td>
+                    <td colspan="7" class="text-center">Tidak ada catatan transaksi dalam periode ini.</td>
                 </tr>
             @endforelse
             
             @if($transactions->count() > 0)
                 <tr class="total-row">
-                    <td colspan="5" class="text-right" style="text-transform: uppercase;">Total Akumulasi:</td>
-                    <td class="text-right font-mono">Rp {{ number_format($totalTransactedVal, 0, ',', '.') }}</td>
-                    <td class="text-right font-mono">Rp {{ number_format($totalReceivedVal, 0, ',', '.') }}</td>
+                    <td colspan="5" class="text-right" style="text-transform: uppercase;">Total Akumulasi Periode Ini:</td>
+                    <td class="text-right font-mono">Rp {{ number_format($totalOmset, 0, ',', '.') }}</td>
+                    <td class="text-right font-mono">Rp {{ number_format($totalCashReceived, 0, ',', '.') }}</td>
                 </tr>
             @endif
         </tbody>
@@ -252,11 +257,11 @@
     <!-- Tanda Tangan & Footer -->
     <div class="footer">
         <div>
-            Sistem Persewaan Kamera - Dicetak secara otomatis oleh sistem.
+            Sistem Persewaan Kamera - Laporan Resmi Keuangan dan Arus Kas.
         </div>
         <div class="signature-box">
-            <p>Admin Toko,</p>
-            <div class="line">{{ auth()->user()->name }}</div>
+            <p>Bagian Keuangan,</p>
+            <div class="line">{{ auth()->user()->name ?? 'Admin' }}</div>
         </div>
     </div>
 
