@@ -135,9 +135,10 @@
                                     <input type="hidden" name="produk_id" value="{{ $product->id_produk }}">
 
                                     <div>
-                                        <label for="banyak" class="block text-xs font-black text-zinc-950 uppercase tracking-wider mb-2">Jumlah Unit (Maks: {{ $product->unit }})</label>
-                                        <input type="number" name="banyak" id="banyak" x-model.number="banyak" min="1" max="{{ $product->unit }}"
-                                            class="block w-full border-2 border-zinc-950 rounded-xl bg-white text-zinc-950 font-bold focus:outline-none focus:ring-0 focus:border-[#9E1B22] transition duration-200 py-3 px-4">
+                                        <label for="banyak" class="block text-xs font-black text-zinc-950 uppercase tracking-wider mb-2">Jumlah Unit (Tersedia: {{ $product->available_units }} dari {{ $product->unit }})</label>
+                                        <input type="number" name="banyak" id="banyak" x-model.number="banyak" min="1" max="{{ $product->available_units }}"
+                                            class="block w-full border-2 border-zinc-950 rounded-xl bg-white text-zinc-950 font-bold focus:outline-none focus:ring-0 focus:border-[#9E1B22] transition duration-200 py-3 px-4"
+                                            {{ $product->available_units < 1 ? 'disabled' : '' }}>
                                     </div>
 
                                     <div>
@@ -175,14 +176,20 @@
                                     </div>
 
                                     <!-- Submit Button -->
-                                    <button type="submit"
-                                        class="w-full inline-flex items-center justify-center px-6 py-4 bg-zinc-950 text-white border-2 border-zinc-950 rounded-xl font-black uppercase tracking-wider text-[15px] hover:-translate-y-1 shadow-[4px_4px_0px_0px_#9E1B22] hover:shadow-[6px_6px_0px_0px_#9E1B22] transition-all duration-300">
-                                        <svg class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
-                                                d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
-                                        </svg>
-                                        Masukkan Keranjang
-                                    </button>
+                                    @if($product->available_units > 0)
+                                        <button type="submit"
+                                            class="w-full inline-flex items-center justify-center px-6 py-4 bg-zinc-950 text-white border-2 border-zinc-950 rounded-xl font-black uppercase tracking-wider text-[15px] hover:-translate-y-1 shadow-[4px_4px_0px_0px_#9E1B22] hover:shadow-[6px_6px_0px_0px_#9E1B22] transition-all duration-300">
+                                            <svg class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                                                    d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                                            </svg>
+                                            Masukkan Keranjang
+                                        </button>
+                                    @else
+                                        <div class="w-full text-center px-6 py-4 bg-zinc-200 text-zinc-500 border-2 border-zinc-300 rounded-xl font-black uppercase tracking-wider text-[15px] cursor-not-allowed">
+                                            Semua Unit Sedang Disewa
+                                        </div>
+                                    @endif
                                 </form>
                             @else
                                 <div class="bg-zinc-50 border-2 border-zinc-950 rounded-2xl p-6 text-center shadow-[4px_4px_0px_0px_#9E1B22]">

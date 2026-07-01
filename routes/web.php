@@ -81,4 +81,49 @@ Route::middleware('auth')->group(function () {
 use App\Http\Controllers\MidtransWebhookController;
 Route::post('/api/midtrans/webhook', [MidtransWebhookController::class, 'handle'])->name('midtrans.webhook');
 
+// Helper route untuk shared hosting tanpa SSH (membuat symlink storage)
+Route::get('/setup-storage-link', function () {
+    $publicStoragePath = public_path('storage');
+    $storagePath = storage_path('app/public');
+
+    // Hapus symlink/folder lama jika sudah ada tapi rusak
+    if (is_link($publicStoragePath)) {
+        // Symlink exists but might be broken
+        if (file_exists($publicStoragePath)) {
+            return 'Storage link sudah ada dan berfungsi normal. Target: ' . readlink($publicStoragePath);
+        }
+        // Broken symlink — remove it
+        @unlink($publicStoragePath);
+    } elseif (file_exists($publicStoragePath)) {
+        // It's a real directory (not a symlink) — remove it
+        @rmdir($publicStoragePath);
+    }
+
+    // Try Artisan command first
+    try {
+        \Illuminate\Support\Facades\Artisan::call('storage:link');
+        $output = \Illuminate\Support\Facades\Artisan::output();
+        if (file_exists($publicStoragePath)) {
+            return 'Storage link berhasil dibuat via Artisan! ' . $output;
+        }
+    } catch (\Exception $e) {
+        // Artisan failed, try manual symlink
+    }
+
+    // Fallback: manual symlink creation
+    try {
+        $result = symlink($storagePath, $publicStoragePath);
+        if ($result) {
+            return 'Storage link berhasil dibuat secara manual! Target: ' . $storagePath;
+        }
+    } catch (\Exception $e) {
+        return 'Gagal membuat storage link: ' . $e->getMessage()
+            . '<br><br>Solusi manual: Buat symlink lewat File Manager cPanel atau hubungi pihak hosting.'
+            . '<br>Source: ' . $storagePath
+            . '<br>Link: ' . $publicStoragePath;
+    }
+
+    return 'Gagal membuat storage link. Silakan coba buat manual lewat cPanel File Manager.';
+})->middleware(['auth', 'role:admin']);
+
 require __DIR__ . '/auth.php';

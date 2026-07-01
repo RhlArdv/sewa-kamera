@@ -493,10 +493,10 @@
                                     <div
                                         class="absolute top-4 right-4 z-20 flex items-center gap-2 bg-white border-[2px] border-black px-3 py-1.5 rounded-xl shadow-[4px_4px_0_0_#000] rotate-2">
                                         <span
-                                            class="w-3 h-3 border-[2px] border-black rounded-full {{ $product->unit > 0 ? 'bg-[#00FF00]' : 'bg-[#FF0000]' }} animate-pulse"></span>
+                                            class="w-3 h-3 border-[2px] border-black rounded-full {{ $product->available_units > 0 ? 'bg-[#00FF00]' : 'bg-[#FF0000]' }} animate-pulse"></span>
                                         <span
-                                            class="text-[12px] font-black text-black uppercase tracking-widest">{{ $product->unit }}
-                                            Unit</span>
+                                            class="text-[12px] font-black text-black uppercase tracking-widest">{{ $product->available_units }}
+                                            Tersedia</span>
                                     </div>
                                 </div>
 

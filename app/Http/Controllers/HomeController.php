@@ -4,10 +4,19 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Product;
+use App\Services\RentalService;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
+    protected RentalService $rentalService;
+
+    public function __construct(RentalService $rentalService)
+    {
+        $this->rentalService = $rentalService;
+    }
+
     /**
      * Display the camera catalog with filters.
      */
@@ -31,6 +40,16 @@ class HomeController extends Controller
 
         $products = $query->get();
 
+        // Calculate real-time available units for each product (current moment snapshot)
+        $now = Carbon::now();
+        foreach ($products as $product) {
+            $product->available_units = $this->rentalService->getAvailableUnits(
+                $product->id_produk,
+                $now,
+                $now->copy()->addMinutes(1) // Check availability at this exact moment
+            );
+        }
+
         return view('home', compact('products', 'categories'));
     }
 
@@ -39,7 +58,15 @@ class HomeController extends Controller
      */
     public function show($id)
     {
-        $product = Product::with(['category', 'galleries'])->findOrFail($id);
+        $product = Product::with(['category', 'galleries', 'results'])->findOrFail($id);
+
+        // Calculate real-time available units
+        $now = Carbon::now();
+        $product->available_units = $this->rentalService->getAvailableUnits(
+            $product->id_produk,
+            $now,
+            $now->copy()->addMinutes(1)
+        );
         
         // Fetch related products (in same category, excluding current product)
         $relatedProducts = Product::with(['category', 'galleries'])
